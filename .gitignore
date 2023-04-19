@@ -5,6 +5,7 @@ __pycache__
 
 # data
 data/proxies/*.txt
+*.json
 
 # logs
 logs/

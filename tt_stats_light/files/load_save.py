@@ -3,8 +3,7 @@ from pathlib import Path
 from types import NoneType
 from typing import Union, Any
 
-
-BASE_DATA_DIR = Path("./data/")
+from tt_stats_light.constants import BASE_DATA_DIR
 
 
 def open_file(rel_path: Union[Path, str], base=True) -> Any:
