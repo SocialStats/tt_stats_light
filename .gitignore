@@ -1,0 +1,10 @@
+# python
+__pycache__
+
+
+
+# data
+data/proxies/*.txt
+
+# logs
+logs/

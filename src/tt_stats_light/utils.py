@@ -7,8 +7,9 @@ from typing import Union, Any
 BASE_DATA_DIR = Path("./data/")
 
 
-def open_file(rel_path: Union[Path, str]) -> Any:
-    with open(BASE_DATA_DIR / rel_path) as file:
+def open_file(rel_path: Union[Path, str], base=True) -> Any:
+    path = BASE_DATA_DIR / rel_path if base else rel_path
+    with open(path) as file:
         return file.read().strip()
 
 
