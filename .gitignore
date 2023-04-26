@@ -1,11 +1,16 @@
 # python
 __pycache__
+env
 
 
 
 # data
 data/proxies/*.txt
-*.json
+data/raw/*
 
 # logs
 logs/
+
+# development
+.vscode
+.mypy_cache

@@ -5,6 +5,8 @@ from tt_stats_light.proxy.constants import PROXY_TYPES
 from tt_stats_light.proxy.process import make_proxies_template, prepare_urls, proxy_type_from_path
 import requests
 
+from tt_stats_light.types import AllProxyTypeHints
+
 
 def download_proxies(download_url) -> List[str]:
     responce = requests.get(download_url)
@@ -14,7 +16,7 @@ def download_proxies(download_url) -> List[str]:
     return clear_proxies
 
 
-def download_all_proxies(proxy_types: Optional[List[str]] = None) -> Dict:
+def download_all_proxies(proxy_types: Optional[List[str]] = None) -> AllProxyTypeHints:
     proxy_types = PROXY_TYPES + ("undefined",) if proxy_types is None else proxy_types
     all_proxies = prepare_urls()
     for proxy_type in proxy_types:
@@ -24,7 +26,7 @@ def download_all_proxies(proxy_types: Optional[List[str]] = None) -> Dict:
     return all_proxies
 
 
-def load_proxies(proxy_types: Tuple[str] = PROXY_TYPES) -> Dict:
+def load_proxies(proxy_types: Tuple[str] = PROXY_TYPES) -> AllProxyTypeHints:
     proxy_files_names = list(BASE_DATA_DIR.glob("proxies/*.txt"))
     assert len(proxy_files_names), "No downloaded proxies"
 

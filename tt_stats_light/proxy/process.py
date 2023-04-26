@@ -2,6 +2,7 @@ from functools import reduce
 from typing import Dict
 from tt_stats_light.files.load_save import open_file
 from tt_stats_light.proxy.constants import PROXY_TYPES
+from tt_stats_light.types import AllProxyTypeHints
 
 
 def proxy_type_from_path(url: str) -> str:
@@ -30,7 +31,7 @@ def prepare_urls() -> Dict:
     return proxies_template
 
 
-def prepare_to_save(all_proxies: Dict) -> Dict:
+def prepare_to_save(all_proxies: AllProxyTypeHints) -> Dict:
     for proxy_type in all_proxies.keys():
         # concatenate proxies over urls
         proxies = set(reduce(lambda x, y: x + y, all_proxies[proxy_type]["proxies"]))
