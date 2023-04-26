@@ -4,6 +4,9 @@ import pickle
 from tiktokapipy.api import TikTokAPI, User, Video
 from tt_stats_light.constants import BASE_DATA_DIR
 from tqdm import tqdm
+from loguru import logger
+
+logger.add("logs/get_user_data.log", level="INFO")
 
 
 def get_user_info(user: User) -> Dict[str, Any]:
@@ -56,9 +59,11 @@ def get_videos(videos_iterator, n_videos: int) -> List[Video]:
 
 
 def context_flow(user_tag: str, **qwargs) -> Tuple[Dict[str, Any], List[Dict[str, Any]]]:
+    logger.info("Start crawling and open browser")
     with TikTokAPI(
         **qwargs,
     ) as api:
+        logger.info("Browser is opened")
         user = api.user(
             user_tag,
             video_limit=100,
@@ -66,9 +71,11 @@ def context_flow(user_tag: str, **qwargs) -> Tuple[Dict[str, Any], List[Dict[str
             # qwargs.get("scroll_down_time")
         )
         # iterator = user.videos
+        logger.info("Start downloading videos info")
         user_videos = get_videos(user.videos, user.stats.video_count)
         user_info = get_user_info(user)
         videos_info = get_videos_info(user_videos)
+        logger.info("All videos info is downloaded")
     return user_info, videos_info
 
 
@@ -88,7 +95,7 @@ if __name__ == "__main__":
         # scroll_down_time=100,
         navigation_retries=5,
         navigation_timeout=0,
-        data_dump_file=,
+        data_dump_file=BASE_DATA_DIR / "raw/",
         # navigator_type="Chromium",
     )
     with open(BASE_DATA_DIR / "raw/" / "user_data.pkl", "wb") as file:

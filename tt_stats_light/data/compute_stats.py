@@ -3,7 +3,14 @@ import pandas as pd
 import pickle
 
 
-def compute_stats(videos_info, user_info):
+def prepare_input_data(user_info, videos_info):
+    assert len(user_info)
+    assert len(videos_info)
+    if not isinstance(videos_info, pd.DataFrame):
+        videos_info = pd.DataFrame(videos_info)
+    return user_info, videos_info
+
+def compute_stats(videos_info:pd.DataFrame, user_info:dict):
     avg_plays_per_video = videos_info["stats_play_count"].mean()
     avg_comments_per_video = videos_info["stats_comment_count"].mean()
     avg_shares_per_video = videos_info["stats_share_count"].mean()
@@ -53,8 +60,6 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser("Compute stats by user")
     parser.add_argument("path_to_raw_data", help="Path to raw data")
     args = parser.parse_args()
-    raw_data = pickle.load(open(args.path_to_raw_data, "rb"))
-    user, videos = raw_data
-    # user = pd.Series(user)
+    user, videos = pickle.load(open(args.path_to_raw_data, "rb"))
     videos = pd.DataFrame(videos)
     stats = compute_stats(videos, user)
